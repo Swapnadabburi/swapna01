@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walmart Products</title>
+    <style>
+        /* Add your CSS styles here */
+        /* You may need to style the layout, buttons, images, etc. */
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Walmart Products</h1>
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <button onclick="searchProducts()">Search</button>
+    </header>
+
+    <section id="filters">
+        <h2>Filters</h2>
+        <label for="priceFilter">Price Range:</label>
+        <select id="priceFilter">
+            <option value="0-50">$0 - $50</option>
+            <option value="50-100">$50 - $100</option>
+            <option value="100-200">$100 - $200</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <!-- Add more filters as needed -->
+    </section>
+
+    <section id="products">
+        <!-- Product listing will be dynamically populated using JavaScript -->
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Walmart Products. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript code for product retrieval and rendering
+        function searchProducts() {
+            const searchInput = document.getElementById('searchInput').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+
+            // In a real-world scenario, you would make API requests to Walmart's servers
+            // Here, we simulate the response with a static product array
+            const products = [
+                { name: 'Product 1', price: 30, discount: 5, image: 'product1.jpg' },
+                { name: 'Product 2', price: 80, discount: 10, image: 'product2.jpg' },
+                // Add more products as needed
+            ];
+
+            // Filter products based on user input
+            const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchInput.toLowerCase()) && getPriceRange(product.price) === priceFilter);
+
+            // Render the products
+            renderProducts(filteredProducts);
+        }
+
+        function getPriceRange(price) {
+            if (price <= 50) {
+                return '0-50';
+            } else if (price <= 100) {
+                return '50-100';
+            } else if (price <= 200) {
+                return '100-200';
+            } else {
+                return '200+';
+            }
+        }
+
+        function renderProducts(products) {
+            const productsSection = document.getElementById('products');
+            productsSection.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Price: $${product.price}</p>
+                    <p>Discount: ${product.discount}% off</p>
+                    <button onclick="addToCart('${product.name}')">Add to Cart</button>
+                `;
+                productsSection.appendChild(productCard);
+            });
+        }
+
+        function addToCart(productName) {
+            // In a real-world scenario, you would add the product to the user's cart
+            alert(`${productName} added to cart!`);
+        }
+    </script>
+</body>
+</html>
+
